@@ -100,8 +100,14 @@ constraint forall(i in 1..len) (
   (entice_value[arms[i], face[i]] >= 0)
 );
 
-constraint obj = - boredom*maxlen + sum(i in 1..len)(
+constraint obj = (- boredom*len) + sum(i in 1..len)(
   dance_value[legs[i], arms[i]] + entice_value[arms[i], face[i]]
+);
+
+constraint forall (i in len+1..maxlen) (
+  face[i] = blank /\
+  arms[i] = neutral /\
+  legs[i] = stand
 );
 
 solve maximize obj;
